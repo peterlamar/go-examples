@@ -1,0 +1,14 @@
+{
+	"ImportPath": "github.com/CiscoCloud/cis-paas/lithos",
+	"GoVersion": "go1.5.1",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/emicklei/go-restful",
+			"Comment": "v1.1.3-133-g2075ddd",
+			"Rev": "2075ddd6c1ed27e26a1b30b3902dafddf2cfb16c"
+		}
+	]
+}
