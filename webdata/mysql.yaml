@@ -13,11 +13,11 @@ spec:
       name: mysql
       env:
         - name: MYSQL_ROOT_PASSWORD
-          value: petlamar1
+          value: rootpasswd #CHANGEME
         - name: MYSQL_USER
-          value: plamar
+          value: user
         - name: MYSQL_PASSWORD
-          value: petlamar1
+          value: userpasswd #CHANGEME
       ports:
         - containerPort: 3306
           name: mysql
