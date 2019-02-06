@@ -8,3 +8,4 @@ Collection of golang reference examples for teaching and learning golang
 4. [Timing](https://github.com/peterlamar/go-workshop/tree/master/timing)
 5. [RPC](https://github.com/peterlamar/go-workshop/tree/master/rpc)
 6. [Gin Swagger](https://github.com/peterlamar/go-workshop/tree/master/ginswagger)
+7. [Redis](https://github.com/peterlamar/go-workshop/tree/master/redis)
