@@ -1,7 +1,9 @@
 ## Go with Gin & swagger
 
-Swagger and Gin work well together and enable a straightforward pattern of
-Swagger docs on Golang. This example highlights this capability
+Swagger is a method of documenting apis to make them easily accessible and
+viewable from a web browser. Swagger and Gin work well together and enable a
+straightforward pattern of Swagger docs on Golang. This example highlights this
+capability
 
 ### Install Go Swagger
 
