@@ -1,6 +1,6 @@
 # go-workshop
 
-Collection of golang reference examples for teaching and learning golang. These examples assume no experience with backend and avoid complex tooling when possible. 
+Collection of golang reference examples for teaching and learning golang. These examples assume no experience with backend and avoid complex tooling. 
 
 1. [Simple REST api](https://github.com/peterlamar/go-workshop/tree/master/rest-example)
 2. [2-tier Kubernetes web app](https://github.com/peterlamar/go-workshop/tree/master/webdata)
