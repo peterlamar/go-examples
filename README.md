@@ -13,7 +13,7 @@ These examples are pure golang exercises
 
 ## Golang + Docker
 
-These integrate with another component, stood up with docker containers.
+These integrate with other components such as databases, stood up with docker containers.
 
 1. [Redis](https://github.com/peterlamar/go-workshop/tree/master/redis)
 2. [db-cache](https://github.com/peterlamar/go-workshop/tree/master/db-cache)
