@@ -120,11 +120,6 @@ Redis can be run with the following:
 docker run --name some-redis -p 6379:6379 -d redis
 ```
 
-Custom Redis ports can be setup with:
-
-```
-export REDIS_PORT=redis-port
-```
 
 ### Build and run the code
 
@@ -175,6 +170,12 @@ export POSTGRES_PASSWORD=super-secret-password
 export CONNECTION_TIMEOUT=duration before connection timeout when starting
  connection to db
 export POSTGRES_PORT=database-port
+```
+
+Custom Redis ports can be setup with:
+
+```
+export REDIS_PORT=redis-port
 ```
 
 ### References
