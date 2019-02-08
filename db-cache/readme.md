@@ -58,7 +58,8 @@ app to be certain.
 
 ### Build and run postgres db
 
-1. Build the container with the SQL files seeding the data
+1. This Builds the local postgres container with two local SQL files that create a table 
+and insert some sample data into the table
 
 ```
 docker build -t postgres . -f deploy/Dockerfile
