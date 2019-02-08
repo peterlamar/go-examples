@@ -7,5 +7,6 @@ Collection of golang reference examples for teaching and learning golang. These 
 3. [Timing](https://github.com/peterlamar/go-workshop/tree/master/timing)
 4. [Gin Swagger](https://github.com/peterlamar/go-workshop/tree/master/ginswagger)
 5. [Redis](https://github.com/peterlamar/go-workshop/tree/master/redis)
-6. [2-tier Kubernetes web app](https://github.com/peterlamar/go-workshop/tree/master/webdata)
-7. [Hello Casandra](https://github.com/peterlamar/go-workshop/tree/master/hellocassandra)
+6. [db-cache](https://github.com/peterlamar/go-workshop/tree/master/db-cache)
+7. [2-tier Kubernetes web app](https://github.com/peterlamar/go-workshop/tree/master/webdata)
+8. [Hello Casandra](https://github.com/peterlamar/go-workshop/tree/master/hellocassandra)
