@@ -71,43 +71,6 @@ this is for local learning ONLY.
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d  postgres
 ```
 
-3. Optional, launch psql to connect to postgres and look around. You will need
-to enter the postgres password which would be "mysecretpassword" if you copy
-and pasted above
-
-```
-docker run -it --rm --link some-postgres:postgres postgres psql -h postgres -U postgres
-```
-
-You should see:
-
-```
-postgres
-Password for user postgres:
-psql (10.6)
-Type "help" for help.
-
-postgres=#
-```
-
-4. In psql
-
-```
-select * from public.simpletable;
-```
-
-You should see:
-```
-table_id |                data_string                 
-----------+--------------------------------------------
-       1 | Monty Python and the Holy Grail
-       2 | Monty Pythons Life of Brian
-       3 | Monty Python Live at the Hollywood Bowl
-       4 | Monty Pythons The Meaning of Life
-       5 | And Now for Something Completely Different
-(5 rows)
-```
-
 #### References
 
 [Postgres docker hub](https://hub.docker.com/_/postgres)
@@ -176,6 +139,45 @@ Custom Redis ports can be setup with:
 
 ```
 export REDIS_PORT=redis-port
+```
+
+#### Investigate postgres db
+
+1.Launch psql to connect to postgres and look around. You will need
+to enter the postgres password which would be "mysecretpassword" if you copy
+and pasted above
+
+```
+docker run -it --rm --link some-postgres:postgres postgres psql -h postgres -U postgres
+```
+
+You should see:
+
+```
+postgres
+Password for user postgres:
+psql (10.6)
+Type "help" for help.
+
+postgres=#
+```
+
+2. In psql
+
+```
+select * from public.simpletable;
+```
+
+You should see:
+```
+table_id |                data_string                 
+----------+--------------------------------------------
+       1 | Monty Python and the Holy Grail
+       2 | Monty Pythons Life of Brian
+       3 | Monty Python Live at the Hollywood Bowl
+       4 | Monty Pythons The Meaning of Life
+       5 | And Now for Something Completely Different
+(5 rows)
 ```
 
 ### References
