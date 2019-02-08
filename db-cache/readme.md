@@ -6,6 +6,54 @@ This builds on the traditional relational database pattern of retrieving data
 from the database with sql queries and adds a new layer of cache between the
 application and the database
 
+
+### DB Cache pattern design
+
+backendapp (golang) <--> cache <--> postgres
+
+
+* Case 1 - No data in cache
+The application checks the cache if it has a sql query result. Since a cache may
+be accessed using a [key/value](https://redis.io/topics/data-types-intro) pair,
+the cache can be checked using a unique key (the key can be the entire sql query
+or a string comprising of the table name and its arguments). If the key does not
+exist in the cache, then the Sql query is run against the Postgres db and the
+data is retrieved per the normal pattern. The data is then stored into the cache
+for next time the query must be run using a unique key as discussed and the data
+as the corresponding value to the key. The cache may be set with a timer that
+[auto expires](https://redislabs.com/ebook/part-2-core-concepts/chapter-3-commands-in-redis/3-7-other-commands/3-7-3-expiring-keys/) the data after a certain amount of time. Depending on your
+application this may be appropriate or not. If there are lots of reads with
+infrequent writes then a longer auto-expire time may be appropriate (such as 4
+or 12 hours for example). Lots of writes may deserve a shorter time or may
+justify not using a cache at all.
+
+1. backendapp <- postgres
+2. backendapp -> cache
+
+
+* Case 2 -
+If the database query result has been previously stored in the cache, then the
+data is retrieved (much faster than a traditional db query since the database
+access and compares values on disk and the cache does so from RAM). Then the db
+query does not occur. Caches can be easier to horizontally scale than relational
+databases and this strategy can be used to alleviate the burden on a single
+relational database for a monolith for example.
+
+1. backendapp <- cache
+
+
+### Performance
+
+Cache, typically being in Ram and consisting of a simple key/value query is
+usually an order of [magnitude faster](https://redis.io/topics/benchmarks) than
+a database query. Your mileage may vary depending on your stack. At the risk of
+offending the internet I'll share antidotal evidence. My observations (network
+trip included) on a recent application had cache results being returned in
+approx 5-20 miliseconds and Sql database queries typically between 100
+miliseconds and 2000 miliseconds. However, it is worth mentioning that many of
+these queries were quite complex so again you will have to benchmark your own
+app to be certain.
+
 ## Setup
 
 ### Build and run postgres db
@@ -113,53 +161,6 @@ and you sould see the db performance improve as it also has an internal cache
 INFO[0002]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:47 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName DB took 1.055244ms              
 INFO[0002]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:54 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName Cache took 653.042µs  
 ```
-
-### Cache pattern design
-
-backendapp (golang) <--> cache <--> postgres
-
-
-* Case 1 - No data in cache
-The application checks the cache if it has a sql query result. Since a cache may
-be accessed using a [key/value](https://redis.io/topics/data-types-intro) pair,
-the cache can be checked using a unique key (the key can be the entire sql query
-or a string comprising of the table name and its arguments). If the key does not
-exist in the cache, then the Sql query is run against the Postgres db and the
-data is retrieved per the normal pattern. The data is then stored into the cache
-for next time the query must be run using a unique key as discussed and the data
-as the corresponding value to the key. The cache may be set with a timer that
-[auto expires](https://redislabs.com/ebook/part-2-core-concepts/chapter-3-commands-in-redis/3-7-other-commands/3-7-3-expiring-keys/) the data after a certain amount of time. Depending on your
-application this may be appropriate or not. If there are lots of reads with
-infrequent writes then a longer auto-expire time may be appropriate (such as 4
-or 12 hours for example). Lots of writes may deserve a shorter time or may
-justify not using a cache at all.
-
-1. backendapp <- postgres
-2. backendapp -> cache
-
-
-* Case 2 -
-If the database query result has been previously stored in the cache, then the
-data is retrieved (much faster than a traditional db query since the database
-access and compares values on disk and the cache does so from RAM). Then the db
-query does not occur. Caches can be easier to horizontally scale than relational
-databases and this strategy can be used to alleviate the burden on a single
-relational database for a monolith for example.
-
-1. backendapp <- cache
-
-
-### Performance
-
-Cache, typically being in Ram and consisting of a simple key/value query is
-usually an order of [magnitude faster](https://redis.io/topics/benchmarks) than
-a database query. Your mileage may vary depending on your stack. At the risk of
-offending the internet I'll share antidotal evidence. My observations (network
-trip included) on a recent application had cache results being returned in
-approx 5-20 miliseconds and Sql database queries typically between 100
-miliseconds and 2000 miliseconds. However, it is worth mentioning that many of
-these queries were quite complex so again you will have to benchmark your own
-app to be certain.
 
 ### Optional
 
