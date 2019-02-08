@@ -2,8 +2,11 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/peterlamar/go-examples/db-cache/pythonmovies"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 // Helloarg is used for injecting example post data
@@ -23,34 +26,34 @@ func SetupRouter() *gin.Engine {
 	router := gin.Default() // Create router
 	router.GET("/", Heartbeat)
 	router.GET("/helloget/:arg", Helloget)
-	router.POST("/hellopost", Hellopost)
 
 	return router
 }
 
 // Helloget This is a get example
 func Helloget(ctx *gin.Context) {
-	// Unmarshal the json request to a struct
-	int := ctx.Param("arg")
 
-	log.Info("my arg ", int)
+	inputArg, err := strconv.Atoi(ctx.Param("arg"))
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"Hello": int,
-	})
-}
-
-// Hellopost This is a post example
-func Hellopost(ctx *gin.Context) {
-	// Unmarshal the json request to a struct
-	var json Helloarg
-
-	if err := ctx.ShouldBindJSON(&json); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	start := time.Now()
+
+	// Get the movie name, the first call will be a cache miss and hit the db
+	name := pythonmovie.GetMovieName(inputArg)
+
+	log.Printf("GetMovieName DB took %s", time.Since(start))
+
+	start2 := time.Now()
+
+	// Get the movie name, the second call will be a cache hit
+	name = pythonmovie.GetMovieName(inputArg)
+
+	log.Printf("GetMovieName Cache took %s", time.Since(start2))
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"Hello": "world",
+		"Hello": name,
 	})
 }

@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
 	"os"
 )
@@ -35,17 +36,18 @@ func ConnectDB() {
 // Build the environment string for the database connection
 // Change to all optional with defaults connecting to container
 func buildPGEnvString() (rtnString string) {
+
 	if os.Getenv("POSTGRES_HOST") == "" {
-		log.Fatal("Environment variable POSTGRES_HOST is not set")
+		os.Setenv("POSTGRES_HOST", "localhost")
 	}
 	if os.Getenv("POSTGRES_PASSWORD") == "" {
-		log.Fatal("Environment variable POSTGRES_PASSWORD is not set")
+		os.Setenv("POSTGRES_PASSWORD", "mysecretpassword")
 	}
 	if os.Getenv("POSTGRES_DB") == "" {
-		log.Fatal("Environment variable POSTGRES_DB is not set")
+		os.Setenv("POSTGRES_DB", "postgres")
 	}
 	if os.Getenv("POSTGRES_USER") == "" {
-		log.Fatal("Environment variable POSTGRES_HOST is not set")
+		os.Setenv("POSTGRES_USER", "postgres")
 	}
 	if os.Getenv("POSTGRES_PORT") == "" {
 		os.Setenv("POSTGRES_PORT", "5432")

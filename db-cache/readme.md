@@ -6,6 +6,114 @@ This builds on the traditional relational database pattern of retrieving data
 from the database with sql queries and adds a new layer of cache between the
 application and the database
 
+## Setup
+
+### Build and run postgres db
+
+1. Build the container with the SQL files seeding the data
+
+```
+docker build -t postgres . -f deploy/Dockerfile
+```
+
+2. Run the database. DON'T deploy anything with this simple default password,
+this is for local learning ONLY.
+
+```
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d  postgres
+```
+
+3. Optional, launch psql to connect to postgres and look around. You will need
+to enter the postgres password which would be "mysecretpassword" if you copy
+and pasted above
+
+```
+docker run -it --rm --link some-postgres:postgres postgres psql -h postgres -U postgres
+```
+
+You should see:
+
+```
+postgres
+Password for user postgres:
+psql (10.6)
+Type "help" for help.
+
+postgres=#
+```
+
+4. In psql
+
+```
+select * from public.simpletable;
+```
+
+You should see:
+```
+table_id |                data_string                 
+----------+--------------------------------------------
+       1 | Monty Python and the Holy Grail
+       2 | Monty Pythons Life of Brian
+       3 | Monty Python Live at the Hollywood Bowl
+       4 | Monty Pythons The Meaning of Life
+       5 | And Now for Something Completely Different
+(5 rows)
+```
+
+#### References
+
+[Postgres docker hub](https://hub.docker.com/_/postgres)
+
+### Run Redis
+
+Redis can be run with the following:
+
+```
+docker run --name some-redis -p 6379:6379 -d redis
+```
+
+Custom Redis ports can be setup with:
+
+```
+export REDIS_PORT=redis-port
+```
+
+### Build and run the code
+
+```
+go build && ./db-cache
+```
+
+
+### Curl endpoint
+
+Open a new terminal tab and curl the endpoint
+
+```
+curl -X GET "http://localhost:8080/helloget/2" -H "accept: application/json"
+```
+
+You should see
+
+```
+{"Hello":{"TableID":2,"DataString":"Monty Pythons Life of Brian"}}
+```
+
+In one tab and the other you should see something similar
+
+```
+INFO[0001]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:47 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName DB took 5.765818ms              
+INFO[0001]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:54 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName Cache took 823.317µs
+```
+
+The cache is performing faster than the sql DB in this instance. Curl it again
+and you sould see the db performance improve as it also has an internal cache
+
+```
+INFO[0002]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:47 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName DB took 1.055244ms              
+INFO[0002]/home/pl/go/src/github.com/peterlamar/go-examples/db-cache/api/api.go:54 github.com/peterlamar/go-examples/db-cache/api.Helloget() GetMovieName Cache took 653.042µs  
+```
+
 ### Cache pattern design
 
 backendapp (golang) <--> cache <--> postgres
@@ -46,17 +154,17 @@ relational database for a monolith for example.
 Cache, typically being in Ram and consisting of a simple key/value query is
 usually an order of [magnitude faster](https://redis.io/topics/benchmarks) than
 a database query. Your mileage may vary depending on your stack. At the risk of
-offending the internet I'll share antidotal evidence. My observations (network 
+offending the internet I'll share antidotal evidence. My observations (network
 trip included) on a recent application had cache results being returned in
 approx 5-20 miliseconds and Sql database queries typically between 100
 miliseconds and 2000 miliseconds. However, it is worth mentioning that many of
 these queries were quite complex so again you will have to benchmark your own
 app to be certain.
 
-## Requirements
+### Optional
 
-Run the following commands to set the environment variables required to run the
-service
+Postgres connection vars are optional and may be set as follows. Make sure
+any modifications are matched in the postgres dockerfile and connection string.
 
 ```
 export POSTGRES_HOST=localhost
@@ -65,36 +173,8 @@ export POSTGRES_USER=database-user-name
 export POSTGRES_PASSWORD=super-secret-password
 export CONNECTION_TIMEOUT=duration before connection timeout when starting
  connection to db
-```
-
-### Optional
-
-Port is optional and may be set as follows
-
-```
 export POSTGRES_PORT=database-port
 ```
-
-### Redis
-
-Redis can be run with the following:
-
-```
-docker run --name some-redis -p 6379:6379 -d redis
-```
-
-Custom Redis ports can be setup with:
-
-```
-export REDIS_PORT=redis-port
-```
-
-## Run the code
-
-```
-go build && ./twotiercache
-```
-
 
 ### References
 
