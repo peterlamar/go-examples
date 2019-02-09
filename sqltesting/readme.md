@@ -5,6 +5,17 @@ logic that references sql queries can be awkward to mock. This strategy takes
 advantage of the [SQL Mock](https://github.com/DATA-DOG/go-sqlmock) library to
 make this more elegant.
 
+## Run the tests
+
+These tests can be run without spinning up the redis or postgres container. 
+This makes another argument for test driven development as its actually 
+easier to get started because dependencies can all be mocked out. 
+
+```
+go test ./...
+```
+
+
 ## Setup
 
 ### Build and run postgres db
