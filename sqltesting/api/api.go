@@ -50,13 +50,9 @@ func GetBoxDifference(ctx *gin.Context) {
 // GetDifference function to be tested
 func GetDifference(inputArg int) (rtn int) {
 
-	log.Info("input ", inputArg)
-
 	movieInfo := pythonmovie.GetMovieInfo(inputArg)
 
 	rtn = movieInfo.WordwideBox - movieInfo.DomesticBox
-
-	log.Info("Difference is ", rtn)
 
 	return
 }

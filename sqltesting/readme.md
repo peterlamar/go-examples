@@ -2,7 +2,8 @@
 
 This example takes the previous db-cache example and adds sqltesting. Testing
 logic that references sql queries can be awkward to mock. This strategy takes
-advantage of the [SQL Mock](https://github.com/DATA-DOG/go-sqlmock) library to make this more elegant.
+advantage of the [SQL Mock](https://github.com/DATA-DOG/go-sqlmock) library to
+make this more elegant.
 
 ## Setup
 
