@@ -17,7 +17,8 @@ These integrate with other components such as databases, stood up with docker co
 
 1. [Redis](https://github.com/peterlamar/go-workshop/tree/master/redis)
 2. [db-cache](https://github.com/peterlamar/go-workshop/tree/master/db-cache)
-3. [Hello Casandra](https://github.com/peterlamar/go-workshop/tree/master/hellocassandra)
+3. [sqltesting](https://github.com/peterlamar/go-workshop/tree/master/sqltesting)
+4. [Hello Casandra](https://github.com/peterlamar/go-workshop/tree/master/hellocassandra)
 
 ## Golang + Docker + Kubernetes
 
