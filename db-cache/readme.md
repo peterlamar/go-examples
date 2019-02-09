@@ -58,7 +58,7 @@ app to be certain.
 
 ### Build and run postgres db
 
-1. This Builds the local postgres container with two local SQL files that create a table 
+1. This Builds the local postgres container with two local SQL files that create a table
 and insert some sample data into the table
 
 ```
@@ -69,12 +69,8 @@ docker build -t postgres . -f deploy/Dockerfile
 this is for local learning ONLY.
 
 ```
-docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d  postgres
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword  -p 5432:5432 -d  postgres
 ```
-
-#### References
-
-[Postgres docker hub](https://hub.docker.com/_/postgres)
 
 ### Run Redis
 
@@ -183,4 +179,5 @@ table_id |                data_string
 
 ### References
 
+[Postgres docker hub](https://hub.docker.com/_/postgres)
 [db caching layer](https://www.reddit.com/r/golang/comments/6o8rzt/how_do_you_organize_db_and_caching_layer/)
