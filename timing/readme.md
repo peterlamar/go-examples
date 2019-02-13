@@ -1,16 +1,36 @@
 # Timing example
 
-Choice example from this [blog](https://coderwall.com/p/cp5fya/measuring-execution-time-in-go)
+It is incredible useful to record the time of
+an application and this example does so. Since
+one of Golang's selling points is performance 
+this is a handy pattern. 
 
-The simple example for timing is
+## Usage
 
 ```
-func main() {
-    start := time.Now()
+// Start timer
+start := time.Now()
 
-    r := new(big.Int)
-    fmt.Println(r.Binomial(1000, 10))
+// Operation you wish to time
+r := new(big.Int)
+fmt.Println(r.Binomial(1000, 10))
 
-    log.Printf("Binomial took %s", time.Since(start))
-}
+// Stop timer
+log.Printf("Binomial took %s", time.Since(start))
 ```
+
+## Get Dependencies
+
+```
+go get ./...
+```
+
+## Run the code
+
+```
+go run main.go
+```
+
+### References
+
+[Coderwall measuring execution](https://coderwall.com/p/cp5fya/measuring-execution-time-in-go)
