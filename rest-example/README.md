@@ -22,3 +22,8 @@ go run main.go
 ## Test
 
 curl -H "Content-Type: application/xml" -X GET http://localhost:3000/?name=Alice 
+
+## References
+
+[Go http library](https://golang.org/pkg/net/http/)
+[Writing Web Apps](https://golang.org/doc/articles/wiki/#tmp_4)
