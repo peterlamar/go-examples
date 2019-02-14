@@ -1,31 +1,28 @@
 package main
 
 import (
-	"github.com/emicklei/go-restful"
-	"io"
+	"fmt"
 	"net/http"
 )
 
-// Main entrypoint of REST api
+func handler(w http.ResponseWriter, r *http.Request) {
+	var name string
+
+	found := r.URL.Query().Get("name")
+	if found != "" {
+		name = found
+	} else {
+		name = "world"
+	}
+
+	fmt.Fprintf(w, "Hello, %s!", name)
+}
+
 func main() {
-	ws := new(restful.WebService)
-	ws.Route(ws.GET("/v1/deploy").To(deploy))
-	ws.Route(ws.GET("/v1/verify").To(verify))
-	restful.Add(ws)
-	http.ListenAndServe(":8080", nil)
-}
+	fmt.Print("Go to http://localhost:3000/?name=Alice\n")
+	fmt.Print("Or\n")
+	fmt.Print("curl -H \"Content-Type: application/xml\" -X GET http://localhost:3000/?name=Alice \n")
 
-// Example Curl for testing
-// curl -H "Content-Type: application/xml" -X GET http://localhost:8080/v1/deploy
-
-// GET http://localhost:8080/v1/deploy
-func deploy(req *restful.Request, resp *restful.Response) {
-	io.WriteString(resp, "return list of deployments")
-	// Hook for deploy
-}
-
-// GET http://localhost:8080/v1/verify
-func verify(req *restful.Request, resp *restful.Response) {
-	io.WriteString(resp, "verify target environment")
-	// Hook for verify
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":3000", nil)
 }

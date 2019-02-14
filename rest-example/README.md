@@ -1,19 +1,24 @@
 # REST API in golang
 
-Simple example of a REST api implemented in golang with a simple dependency. 
+Simple example of a REST api implemented in golang with the standard library.
 
-# Build
+## Usage
 
-go build
+```golang
+func main() {
+	http.HandleFunc("/", handler)
+    http.ListenAndServe(":3000", nil)
+}
 
-# Run Tests
+func handler(w http.ResponseWriter, r *http.Request) {
+    // function logic
+}
+```
 
-TODO
+## Run the code
 
-# Run
+go run main.go
 
-./deploy
+## Test
 
-# Test
-
-curl -H "Content-Type: application/xml" -X GET http://localhost:8080/v1/deploy
+curl -H "Content-Type: application/xml" -X GET http://localhost:3000/?name=Alice 
