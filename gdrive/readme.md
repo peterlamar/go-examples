@@ -1,4 +1,4 @@
-# GDrive in golang
+# Google Drive 
 
 This example lists files, creates a directory and uploads an
 image into the directory in google drive. You will need an 
