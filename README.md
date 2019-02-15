@@ -10,6 +10,7 @@ These examples are pure golang exercises
 2. [RPC](https://github.com/peterlamar/go-workshop/tree/master/rpc)
 3. [Timing](https://github.com/peterlamar/go-workshop/tree/master/timing)
 4. [Gin Swagger](https://github.com/peterlamar/go-workshop/tree/master/ginswagger)
+5. [Google Drive](https://github.com/peterlamar/go-examples/blob/master/gdrive/readme.md)
 
 ## Golang + Docker
 
