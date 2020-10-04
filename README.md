@@ -26,3 +26,8 @@ These integrate with other components such as databases, stood up with docker co
 These interact with Kubernetes as well as Docker. Local [Minikube](https://kubernetes.io/docs/setup/minikube/) or a cloud hosted kubernetes can be used for this exercise. 
 
 1. [2-tier Kubernetes web app](https://github.com/peterlamar/go-workshop/tree/master/webdata)
+
+## Misc Links
+
+1. [Effective Go](https://golang.org/doc/effective_go.html) - Basic reference for Golang
+1. [Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments) - Extra supplement comments
